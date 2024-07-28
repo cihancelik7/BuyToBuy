@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.BuyToBuy" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <!-- Status bar color. -->
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="Theme.Project1763" parent="Theme.BuyToBuy">
+        <item name="android:windowTranslucentNavigation">true</item>
+
+    </style>
+</resources>

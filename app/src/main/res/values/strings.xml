@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BuyToBuy</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="intro_title">Step in to your <font color="#6033ba"> style\n A world of shoes</font></string>
+    <string name="intro_text">Browse latest styles from top brands\nGet personalized recommendations\nEnjoy fast free shipping</string>
+    <string name="intro_sign_in">Alreay have an account?<font color="#6033ba"> Sign In</font></string>
+</resources>
