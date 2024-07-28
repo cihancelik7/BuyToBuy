@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1040792764155",
+    "project_id": "buytobuy",
+    "storage_bucket": "buytobuy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040792764155:android:b96e23d5639609012aba5e",
+        "android_client_info": {
+          "package_name": "com.example.buytobuy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMHer__B0_iul5t7kffxzLWwNf3z931vg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
