@@ -3,12 +3,14 @@ package com.example.buytobuy.activity
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.example.buytobuy.R
 import com.example.buytobuy.adapter.BrandAdapter
+import com.example.buytobuy.adapter.PopularAdapter
 import com.example.buytobuy.adapter.SliderAdapter
 import com.example.buytobuy.databinding.ActivityMainBinding
 import com.example.buytobuy.model.SliderModel
@@ -28,6 +30,7 @@ class MainActivity : BaseActivity() {
         FirebaseApp.initializeApp(this)
         initBanner()
         initBrand()
+        initPopular()
 
 
     }
@@ -66,5 +69,14 @@ class MainActivity : BaseActivity() {
             binding.progressBarBrand.visibility = View.GONE
         })
         viewModel.loadBrand()
+    }
+    private fun initPopular(){
+        binding.progressBarPopular.visibility=View.VISIBLE
+        viewModel.populars.observe(this, Observer {
+            binding.viewPopular.layoutManager = GridLayoutManager(this@MainActivity,2)
+            binding.viewPopular.adapter = PopularAdapter(it)
+            binding.progressBarPopular.visibility = View.GONE
+        })
+        viewModel.loadPopular()
     }
 }
