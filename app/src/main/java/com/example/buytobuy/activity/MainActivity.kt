@@ -2,13 +2,14 @@ package com.example.buytobuy.activity
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.example.buytobuy.R
-import com.example.buytobuy.SliderAdapter
+import com.example.buytobuy.adapter.BrandAdapter
+import com.example.buytobuy.adapter.SliderAdapter
 import com.example.buytobuy.databinding.ActivityMainBinding
 import com.example.buytobuy.model.SliderModel
 import com.example.buytobuy.viewModel.MainViewModel
@@ -26,6 +27,7 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
         FirebaseApp.initializeApp(this)
         initBanner()
+        initBrand()
 
 
     }
@@ -54,5 +56,15 @@ class MainActivity : BaseActivity() {
             binding.dotIndicator.visibility=View.VISIBLE
             binding.dotIndicator.attachTo(binding.viewpagerSlider)
         }
+    }
+
+    private fun initBrand(){
+        binding.progressBarBrand.visibility=View.VISIBLE
+        viewModel.brands.observe(this, Observer {
+            binding.viewBrand.layoutManager = LinearLayoutManager(this@MainActivity,LinearLayoutManager.HORIZONTAL,false)
+            binding.viewBrand.adapter = BrandAdapter(it)
+            binding.progressBarBrand.visibility = View.GONE
+        })
+        viewModel.loadBrand()
     }
 }
