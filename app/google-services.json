@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1040792764155",
+    "firebase_url": "https://buytobuy-default-rtdb.firebaseio.com",
     "project_id": "buytobuy",
     "storage_bucket": "buytobuy.appspot.com"
   },
