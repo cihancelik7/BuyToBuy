@@ -1,5 +1,6 @@
 package com.example.buytobuy.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -31,8 +32,14 @@ class MainActivity : BaseActivity() {
         initBanner()
         initBrand()
         initPopular()
+        initBottomMenu()
 
+    }
 
+    private fun initBottomMenu() {
+        binding.cartBtn.setOnClickListener {
+            startActivity(Intent(this@MainActivity,CartActivity::class.java))
+        }
     }
 
     private fun initBanner() {
@@ -46,9 +53,9 @@ class MainActivity : BaseActivity() {
 
     private fun banners(images: List<SliderModel>) {
         binding.viewpagerSlider.adapter = SliderAdapter(images, binding.viewpagerSlider)
-        binding.viewpagerSlider.clipToPadding = false
-        binding.viewpagerSlider.clipChildren = false
-        binding.viewpagerSlider.offscreenPageLimit=3
+        binding.viewpagerSlider.clipToPadding = true
+        binding.viewpagerSlider.clipChildren = true
+        binding.viewpagerSlider.offscreenPageLimit=1
         binding.viewpagerSlider.getChildAt(0).overScrollMode= RecyclerView.OVER_SCROLL_NEVER
 
         val compositePageTransformer = CompositePageTransformer().apply {
