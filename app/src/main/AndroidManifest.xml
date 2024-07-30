@@ -13,6 +13,12 @@
         android:theme="@style/Theme.BuyToBuy"
         tools:targetApi="31">
         <activity
+            android:name=".activity.CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.DetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.BaseActivity"
             android:exported="false" />
         <activity
@@ -27,7 +33,7 @@
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
     </application>
 
 </manifest>
