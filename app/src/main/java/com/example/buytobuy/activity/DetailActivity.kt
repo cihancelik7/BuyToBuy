@@ -78,7 +78,7 @@ private var numberOrder=1
         binding.titleTxt.text = item.title
         binding.descriptionTxt.text  = item.description
         binding.priceTxt.text = "$"+item.price
-        binding.ratingTxt.text = "${item.rating} Rating"
+      //  binding.ratingTxt.text = "${item.rating} Rating"
         binding.addToCartBtn.setOnClickListener {
             item.numberInCart = numberOrder
             managementCart.insertFood(item)
