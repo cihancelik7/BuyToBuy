@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:minHeight="150dp"
     android:scaleType="fitCenter"
+    android:src="@drawable/banner"
     android:adjustViewBounds="false">
 
 </ImageView>

@@ -1,5 +1,6 @@
 package com.example.buytobuy.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -27,6 +28,11 @@ class CartActivity : BaseActivity() {
         setVariable()
         initCartList()
         calculateCart()
+
+        binding.checkOutBtn.setOnClickListener {
+            val intent = Intent(this@CartActivity, AddressActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 
