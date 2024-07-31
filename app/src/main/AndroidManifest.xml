@@ -17,6 +17,9 @@
         android:theme="@style/Theme.BuyToBuy"
         tools:targetApi="31">
         <activity
+            android:name=".activity.RegisterActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.LoginActivity"
             android:exported="true" />
         <activity
