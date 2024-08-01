@@ -12,7 +12,10 @@ class IntroActivity : BaseActivity() {
         setContentView(binding.root)
 
         binding.startBtn.setOnClickListener {
-            startActivity(Intent(this@IntroActivity, MainActivity::class.java))
+            startActivity(Intent(this@IntroActivity, RegisterActivity::class.java))
+        }
+        binding.signInTxt.setOnClickListener {
+            startActivity(Intent(this@IntroActivity,LoginActivity::class.java))
         }
 
     }

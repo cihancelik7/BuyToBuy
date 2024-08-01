@@ -38,4 +38,5 @@ class OtpActivity : AppCompatActivity() {
             // Hatalı OTP girişi durumu
         }
     }
+
 }

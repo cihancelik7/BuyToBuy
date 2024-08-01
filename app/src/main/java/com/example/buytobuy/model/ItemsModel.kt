@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class ItemsModel(
+    var orderID: String = "",
     var title: String = "",
     var description: String = "",
     var picUrl: ArrayList<String> = ArrayList(),
@@ -13,21 +14,25 @@ data class ItemsModel(
     var numberInCart: Int = 0
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.createStringArrayList() as ArrayList<String>,
-        parcel.createStringArrayList() as ArrayList<String>,
-        parcel.readDouble(),
-        parcel.readDouble()
-
+        parcel.readString() ?: "", // orderID
+        parcel.readString() ?: "", // title
+        parcel.readString() ?: "", // description
+        parcel.createStringArrayList() ?: ArrayList(), // picUrl
+        parcel.createStringArrayList() ?: ArrayList(), // size
+        parcel.readDouble(), // price
+        parcel.readDouble(), // rating
+        parcel.readInt() // numberInCart
     )
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(orderID)
         dest.writeString(title)
         dest.writeString(description)
         dest.writeStringList(picUrl)
         dest.writeStringList(size)
         dest.writeDouble(price)
+        dest.writeDouble(rating)
+        dest.writeInt(numberInCart)
     }
 
     override fun describeContents(): Int {
@@ -43,6 +48,4 @@ data class ItemsModel(
             return arrayOfNulls(size)
         }
     }
-
 }
-
