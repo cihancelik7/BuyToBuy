@@ -30,8 +30,22 @@ class OtpActivity : BaseActivity() {
             val enteredOtp = binding.otpEditText.text.toString()
             verifyOtp(enteredOtp)
         }
+        initBottomMenu()
     }
-
+    private fun initBottomMenu() {
+        binding.navCart.setOnClickListener {
+            startActivity(Intent(this@OtpActivity, CartActivity::class.java))
+        }
+        binding.wishlistBtn.setOnClickListener {
+            startActivity(Intent(this@OtpActivity, WishlistActivity::class.java))
+        }
+        binding.historyBtn.setOnClickListener {
+            startActivity(Intent(this@OtpActivity, HistoryActivity::class.java))
+        }
+        binding.navExplorer.setOnClickListener {
+            startActivity(Intent(this@OtpActivity, MainActivity::class.java))
+        }
+    }
     private fun verifyOtp(otp: String) {
         binding.otpProgressBar.visibility = View.VISIBLE
 
@@ -39,16 +53,17 @@ class OtpActivity : BaseActivity() {
             binding.otpProgressBar.visibility = View.GONE
             Toast.makeText(this, "Payment Confirmed", Toast.LENGTH_SHORT).show()
 
-            // Verileri Firebase'e ekle
-            val databaseReference = FirebaseDatabase.getInstance().getReference("HistoryItems")
-            for (item in itemsToBeMoved) {
-                val newItemRef = databaseReference.push()
-                newItemRef.setValue(item)
+            val currentTime = System.currentTimeMillis()
+
+            // Veriyi kaydederken zaman damgasını ekleyin
+            itemsToBeMoved.forEach { item ->
+                item.purchaseDate = currentTime
             }
 
+            // Verileri HistoryActivity'ye ekleme
+            HistoryActivity.addItemsToHistory(itemsToBeMoved)
             // Sepeti sıfırla
             managementCart.clearCart()
-
             // HistoryActivity'ye geçiş
             startActivity(Intent(this, HistoryActivity::class.java))
         } else {

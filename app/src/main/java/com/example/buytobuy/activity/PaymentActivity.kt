@@ -27,6 +27,7 @@ class PaymentActivity : BaseActivity() {
             val cvv = binding.cvvEdit.text.toString()
             startPayment(cardNumber, expiryDate, cvv)
         }
+        initBottomMenu()
     }
 
     private fun startPayment(cardNumber: String, expiryDate: String, cvv: String) {
@@ -53,6 +54,20 @@ class PaymentActivity : BaseActivity() {
                 Toast.makeText(this@PaymentActivity, errorMessage, Toast.LENGTH_SHORT).show()
             }
         })
+    }
+    private fun initBottomMenu() {
+        binding.navCart.setOnClickListener {
+            startActivity(Intent(this@PaymentActivity, CartActivity::class.java))
+        }
+        binding.wishlistBtn.setOnClickListener {
+            startActivity(Intent(this@PaymentActivity, WishlistActivity::class.java))
+        }
+        binding.historyBtn.setOnClickListener {
+            startActivity(Intent(this@PaymentActivity, HistoryActivity::class.java))
+        }
+        binding.navExplorer.setOnClickListener {
+            startActivity(Intent(this@PaymentActivity, MainActivity::class.java))
+        }
     }
 
     private fun sendOtp(phoneNumber: String) {

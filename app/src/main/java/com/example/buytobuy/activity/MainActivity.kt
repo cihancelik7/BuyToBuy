@@ -50,6 +50,9 @@ class MainActivity : BaseActivity() {
         binding.historyBtn.setOnClickListener {
             startActivity(Intent(this@MainActivity, HistoryActivity::class.java))
         }
+        binding.navExplorer.setOnClickListener {
+            startActivity(Intent(this@MainActivity,MainActivity::class.java))
+        }
 
     }
 

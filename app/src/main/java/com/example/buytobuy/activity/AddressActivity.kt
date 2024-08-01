@@ -20,5 +20,20 @@ class AddressActivity : AppCompatActivity() {
             intent.putExtra("phoneNumber", phoneNumber)
             startActivity(intent)
         }
+        initBottomMenu()
+    }
+    private fun initBottomMenu() {
+        binding.navCart.setOnClickListener {
+            startActivity(Intent(this@AddressActivity, CartActivity::class.java))
+        }
+        binding.wishlistBtn.setOnClickListener {
+            startActivity(Intent(this@AddressActivity, WishlistActivity::class.java))
+        }
+        binding.historyBtn.setOnClickListener {
+            startActivity(Intent(this@AddressActivity, HistoryActivity::class.java))
+        }
+        binding.navExplorer.setOnClickListener {
+            startActivity(Intent(this@AddressActivity, MainActivity::class.java))
+        }
     }
 }

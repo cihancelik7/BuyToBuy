@@ -13,7 +13,7 @@ data class ItemsModel(
     var price: Double = 0.0,
     var rating: Double = 0.0,
     var numberInCart: Int = 0,
-    var purchaseDate: Date? = null
+    var purchaseDate: Long? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "", // orderID

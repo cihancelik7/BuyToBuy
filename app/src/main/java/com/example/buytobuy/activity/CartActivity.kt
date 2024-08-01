@@ -33,6 +33,8 @@ class CartActivity : BaseActivity() {
         setVariable()
         initCartList()
         calculateCart()
+        initBottomMenu()
+
 
         binding.checkOutBtn.setOnClickListener {
             val intent = Intent(this@CartActivity, AddressActivity::class.java)
@@ -41,6 +43,20 @@ class CartActivity : BaseActivity() {
 
         // Sepetteki tüm öğeleri itemsToBeMoved listesine ekleyin
         itemsToBeMoved.addAll(cartItems)
+    }
+    private fun initBottomMenu() {
+        binding.cartBtn.setOnClickListener {
+            startActivity(Intent(this@CartActivity, CartActivity::class.java))
+        }
+        binding.wishlistBtn.setOnClickListener {
+            startActivity(Intent(this@CartActivity, WishlistActivity::class.java))
+        }
+        binding.historyBtn.setOnClickListener {
+            startActivity(Intent(this@CartActivity, HistoryActivity::class.java))
+        }
+        binding.navExplorer.setOnClickListener {
+            startActivity(Intent(this@CartActivity, MainActivity::class.java))
+        }
     }
 
     private fun initCartList() {

@@ -20,12 +20,15 @@ import com.example.buytobuy.model.SliderModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DatabaseReference
+
 class DetailActivity : BaseActivity() {
 
     private lateinit var binding: ActivityDetailBinding
     private lateinit var item: ItemsModel
     private lateinit var auth: FirebaseAuth
-    private lateinit var db: FirebaseFirestore
+    private lateinit var dbRef: DatabaseReference
     private lateinit var managementCart: ManagementCart
     private var isFavorite = false
 
@@ -35,7 +38,7 @@ class DetailActivity : BaseActivity() {
         setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
-        db = FirebaseFirestore.getInstance()
+        dbRef = FirebaseDatabase.getInstance().getReference("users")
         managementCart = ManagementCart(this)
 
         // Ürün bilgilerini al
@@ -52,6 +55,7 @@ class DetailActivity : BaseActivity() {
         // Diğer başlangıç ayarları
         banners()
         initList()
+        initBottomMenu()
     }
 
     private fun getBundle() {
@@ -76,13 +80,9 @@ class DetailActivity : BaseActivity() {
     private fun checkFavoriteStatus() {
         val user = auth.currentUser
         if (user != null) {
-            db.collection("users")
-                .document(user.uid)
-                .collection("wishlist")
-                .document(item.title)
-                .get()
-                .addOnSuccessListener { document ->
-                    if (document.exists()) {
+            dbRef.child(user.uid).child("wishlist").child(item.title)
+                .get().addOnSuccessListener {
+                    if (it.exists()) {
                         isFavorite = true
                         binding.favBtn.setImageResource(R.drawable.favorite)
                     } else {
@@ -96,19 +96,21 @@ class DetailActivity : BaseActivity() {
     private fun toggleFavorite() {
         val user = auth.currentUser
         if (user != null) {
-            val wishlistRef = db.collection("users").document(user.uid).collection("wishlist").document(item.title)
+            val wishlistRef = dbRef.child(user.uid).child("wishlist").child(item.title)
             if (isFavorite) {
-                wishlistRef.delete()
-                    .addOnSuccessListener {
-                        isFavorite = false
-                        binding.favBtn.setImageResource(R.drawable.fav_icon)
-                    }
+                wishlistRef.removeValue().addOnSuccessListener {
+                    isFavorite = false
+                    binding.favBtn.setImageResource(R.drawable.fav_icon)
+                }.addOnFailureListener {
+                    // Hata durumunda kullanıcıya bildirim yap veya eski durumu geri al
+                }
             } else {
-                wishlistRef.set(item)
-                    .addOnSuccessListener {
-                        isFavorite = true
-                        binding.favBtn.setImageResource(R.drawable.favorite)
-                    }
+                wishlistRef.setValue(item).addOnSuccessListener {
+                    isFavorite = true
+                    binding.favBtn.setImageResource(R.drawable.favorite)
+                }.addOnFailureListener {
+                    // Hata durumunda kullanıcıya bildirim yap veya eski durumu geri al
+                }
             }
         }
     }
@@ -126,6 +128,20 @@ class DetailActivity : BaseActivity() {
         if (sliderItems.size > 1) {
             binding.dotIndicator.visibility = View.VISIBLE
             binding.dotIndicator.attachTo(binding.slider)
+        }
+    }
+    private fun initBottomMenu() {
+        binding.cartBtn.setOnClickListener {
+            startActivity(Intent(this@DetailActivity, CartActivity::class.java))
+        }
+        binding.wishlistBtn.setOnClickListener {
+            startActivity(Intent(this@DetailActivity, WishlistActivity::class.java))
+        }
+        binding.historyBtn.setOnClickListener {
+            startActivity(Intent(this@DetailActivity, HistoryActivity::class.java))
+        }
+        binding.navExplorer.setOnClickListener {
+            startActivity(Intent(this@DetailActivity, MainActivity::class.java))
         }
     }
 

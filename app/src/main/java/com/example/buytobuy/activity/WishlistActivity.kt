@@ -1,5 +1,6 @@
 package com.example.buytobuy.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +30,7 @@ class WishlistActivity : BaseActivity() {
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = wishlistAdapter
-
+        initBottomMenu()
         loadWishlist()
     }
 
@@ -47,6 +48,20 @@ class WishlistActivity : BaseActivity() {
                 .addOnFailureListener { e ->
                     // Handle error
                 }
+        }
+    }
+    private fun initBottomMenu() {
+        binding.navCart.setOnClickListener {
+            startActivity(Intent(this@WishlistActivity, CartActivity::class.java))
+        }
+        binding.wishlistBtn.setOnClickListener {
+            startActivity(Intent(this@WishlistActivity, WishlistActivity::class.java))
+        }
+        binding.historyBtn.setOnClickListener {
+            startActivity(Intent(this@WishlistActivity, HistoryActivity::class.java))
+        }
+        binding.navExplorer.setOnClickListener {
+            startActivity(Intent(this@WishlistActivity, MainActivity::class.java))
         }
     }
 
