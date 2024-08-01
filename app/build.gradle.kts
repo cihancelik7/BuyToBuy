@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation("com.google.firebase:firebase-database:21.0.0")
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -63,5 +64,6 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation("com.google.code.gson:gson:2.9.1")
     implementation("com.tbuonomo:dotsindicator:5.0")
+    implementation ("com.google.firebase:firebase-auth:21.0.1")
 }
 apply(plugin = "com.google.gms.google-services")

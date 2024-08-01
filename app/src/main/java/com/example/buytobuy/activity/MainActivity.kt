@@ -17,11 +17,13 @@ import com.example.buytobuy.databinding.ActivityMainBinding
 import com.example.buytobuy.model.SliderModel
 import com.example.buytobuy.viewModel.MainViewModel
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel = MainViewModel()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +35,10 @@ class MainActivity : BaseActivity() {
         initBrand()
         initPopular()
         initBottomMenu()
+        initListName()
+
+
+
 
     }
 
@@ -40,7 +46,12 @@ class MainActivity : BaseActivity() {
         binding.cartBtn.setOnClickListener {
             startActivity(Intent(this@MainActivity,CartActivity::class.java))
         }
+        binding.wishlistBtn.setOnClickListener {
+            startActivity(Intent(this@MainActivity,WishlistActivity::class.java))
+        }
+
     }
+
 
     private fun initBanner() {
         binding.progressBarBanner.visibility = View.VISIBLE
@@ -85,5 +96,12 @@ class MainActivity : BaseActivity() {
             binding.progressBarPopular.visibility = View.GONE
         })
         viewModel.loadPopular()
+    }
+    private fun initListName(){
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        currentUser?.let {
+            val email = it.email
+            binding.textView4.text = email
+        }
     }
 }
