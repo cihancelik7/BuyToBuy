@@ -49,4 +49,9 @@ class ManagementCart(val context:Context) {
         }
         return fee
     }
+    fun clearCart() {
+        val listFood = arrayListOf<ItemsModel>()
+        tinyDB.putListObject("CartList", listFood)
+        Toast.makeText(context, "Your cart has been cleared", Toast.LENGTH_SHORT).show()
+    }
 }

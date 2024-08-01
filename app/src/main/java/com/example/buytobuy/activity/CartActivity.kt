@@ -13,17 +13,22 @@ import com.example.buytobuy.adapter.CartAdapter
 import com.example.buytobuy.databinding.ActivityCartBinding
 import com.example.buytobuy.helper.ChangeNumberItemsListener
 import com.example.buytobuy.helper.ManagementCart
+import com.example.buytobuy.model.ItemsModel
 
 class CartActivity : BaseActivity() {
     private lateinit var binding: ActivityCartBinding
     private lateinit var managementCart: ManagementCart
     private var tax: Double = 0.0
+    private lateinit var cartItems: ArrayList<ItemsModel>
+    private val itemsToBeMoved = ArrayList<ItemsModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         managementCart = ManagementCart(this)
+        cartItems = managementCart.getListCart() // managementCart başlatıldıktan sonra kullanılıyor
 
         setVariable()
         initCartList()
@@ -34,24 +39,23 @@ class CartActivity : BaseActivity() {
             startActivity(intent)
         }
 
+        // Sepetteki tüm öğeleri itemsToBeMoved listesine ekleyin
+        itemsToBeMoved.addAll(cartItems)
     }
 
     private fun initCartList() {
         binding.viewCart.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.viewCart.adapter =
-            CartAdapter(managementCart.getListCart(), this, object : ChangeNumberItemsListener {
+            CartAdapter(cartItems, this, object : ChangeNumberItemsListener {
                 override fun onChanged() {
                     calculateCart()
                 }
-
             })
 
         with(binding) {
-            emptyTxt.visibility =
-                if (managementCart.getListCart().isEmpty()) View.VISIBLE else View.GONE
-            scrollView2.visibility =
-                if (managementCart.getListCart().isEmpty()) View.GONE else View.VISIBLE
+            emptyTxt.visibility = if (cartItems.isEmpty()) View.VISIBLE else View.GONE
+            scrollView2.visibility = if (cartItems.isEmpty()) View.GONE else View.VISIBLE
         }
     }
 

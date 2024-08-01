@@ -325,6 +325,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/historyBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
@@ -339,7 +340,7 @@
                         app:srcCompat="@drawable/btn_4" />
 
                     <TextView
-                        android:id="@+id/textView94"
+                        android:id="@+id/historyTxt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"

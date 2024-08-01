@@ -2,6 +2,7 @@ package com.example.buytobuy.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.util.Date
 
 data class ItemsModel(
     var orderID: String = "",
@@ -11,7 +12,8 @@ data class ItemsModel(
     var size: ArrayList<String> = ArrayList(),
     var price: Double = 0.0,
     var rating: Double = 0.0,
-    var numberInCart: Int = 0
+    var numberInCart: Int = 0,
+    var purchaseDate: Date? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "", // orderID
