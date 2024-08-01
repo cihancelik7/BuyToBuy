@@ -1,55 +1,55 @@
 package com.example.buytobuy.activity
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.buytobuy.R
 import com.example.buytobuy.adapter.HistoryAdapter
 import com.example.buytobuy.databinding.ActivityHistoryBinding
-import com.example.buytobuy.model.HistoryItem
 import com.example.buytobuy.model.ItemsModel
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
-class HistoryActivity : AppCompatActivity() {
+class HistoryActivity : BaseActivity() {
 
-    private lateinit var historyRecyclerView: RecyclerView
+    private lateinit var binding: ActivityHistoryBinding
     private lateinit var historyAdapter: HistoryAdapter
+    private val historyItems = mutableListOf<ItemsModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_history)
+        binding = ActivityHistoryBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        historyRecyclerView = findViewById(R.id.historyRecyclerView)
-        historyRecyclerView.layoutManager = GridLayoutManager(this, 2) // İki sütunlu grid layout
+        setupRecyclerView()
+        fetchHistoryData()
+    }
 
-        // Test verileri ItemsModel'e uygun şekilde güncellendi
-        val historyItems = listOf(
-            ItemsModel(
-                orderID = "123",
-                title = "Product 1",
-                description = "Description of Product 1",
-                picUrl = arrayListOf("https://example.com/image1.jpg"),
-                size = arrayListOf("M", "L"),
-                price = 29.99,
-                rating = 4.5,
-                numberInCart = 1
-            ),
-            ItemsModel(
-                orderID = "124",
-                title = "Product 2",
-                description = "Description of Product 2",
-                picUrl = arrayListOf("https://example.com/image2.jpg"),
-                size = arrayListOf("S", "XL"),
-                price = 39.99,
-                rating = 4.8,
-                numberInCart = 1
-            )
-        )
-
+    private fun setupRecyclerView() {
+        binding.historyRecyclerView.layoutManager = GridLayoutManager(this, 2) // İki kolonlu yapı
         historyAdapter = HistoryAdapter(historyItems)
-        historyRecyclerView.adapter = historyAdapter
+        binding.historyRecyclerView.adapter = historyAdapter
+    }
+
+    private fun fetchHistoryData() {
+        val databaseReference = FirebaseDatabase.getInstance().getReference("HistoryItems")
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                historyItems.clear()
+                for (data in snapshot.children) {
+                    val item = data.getValue(ItemsModel::class.java)
+                    if (item != null) {
+                        historyItems.add(item)
+                    }
+                }
+                historyAdapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("HistoryActivity", "Database error: ${error.message}")
+            }
+        })
     }
 }
