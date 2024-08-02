@@ -53,7 +53,10 @@ class WishlistAdapter(
                 binding.root.context.startActivity(intent)
             }
 
-
+            // Favorilerden çıkarma
+            binding.favBtn.setOnClickListener {
+                onRemoveClicked(item)
+            }
         }
     }
 

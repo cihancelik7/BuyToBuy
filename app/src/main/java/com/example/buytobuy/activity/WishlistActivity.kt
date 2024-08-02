@@ -8,14 +8,14 @@ import com.example.buytobuy.adapter.WishlistAdapter
 import com.example.buytobuy.databinding.ActivityWishlistBinding
 import com.example.buytobuy.model.ItemsModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.database.*
 
 class WishlistActivity : BaseActivity() {
 
     private lateinit var binding: ActivityWishlistBinding
     private lateinit var wishlistAdapter: WishlistAdapter
     private lateinit var auth: FirebaseAuth
-    private lateinit var db: FirebaseFirestore
+    private lateinit var dbRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +23,7 @@ class WishlistActivity : BaseActivity() {
         setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
-        db = FirebaseFirestore.getInstance()
+        dbRef = FirebaseDatabase.getInstance().getReference("users")
 
         wishlistAdapter = WishlistAdapter { item ->
             removeFromWishlist(item)
@@ -37,19 +37,26 @@ class WishlistActivity : BaseActivity() {
     private fun loadWishlist() {
         val user = auth.currentUser
         if (user != null) {
-            db.collection("users")
-                .document(user.uid)
-                .collection("wishlist")
-                .get()
-                .addOnSuccessListener { documents ->
-                    val items = documents.map { it.toObject(ItemsModel::class.java) }
-                    wishlistAdapter.submitList(items)
-                }
-                .addOnFailureListener { e ->
-                    // Handle error
-                }
+            dbRef.child(user.uid).child("wishlist")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val items = mutableListOf<ItemsModel>()
+                        for (data in snapshot.children) {
+                            val item = data.getValue(ItemsModel::class.java)
+                            if (item != null) {
+                                items.add(item)
+                            }
+                        }
+                        wishlistAdapter.submitList(items)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        // Handle error
+                    }
+                })
         }
     }
+
     private fun initBottomMenu() {
         binding.navCart.setOnClickListener {
             startActivity(Intent(this@WishlistActivity, CartActivity::class.java))
@@ -68,11 +75,8 @@ class WishlistActivity : BaseActivity() {
     private fun removeFromWishlist(item: ItemsModel) {
         val user = auth.currentUser
         if (user != null) {
-            db.collection("users")
-                .document(user.uid)
-                .collection("wishlist")
-                .document(item.title)
-                .delete()
+            dbRef.child(user.uid).child("wishlist").child(item.title)
+                .removeValue()
                 .addOnSuccessListener {
                     loadWishlist() // Reload wishlist to reflect changes
                 }

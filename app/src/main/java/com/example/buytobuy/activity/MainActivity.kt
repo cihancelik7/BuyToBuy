@@ -14,16 +14,20 @@ import com.example.buytobuy.adapter.BrandAdapter
 import com.example.buytobuy.adapter.PopularAdapter
 import com.example.buytobuy.adapter.SliderAdapter
 import com.example.buytobuy.databinding.ActivityMainBinding
+import com.example.buytobuy.helper.ManagementCart
 import com.example.buytobuy.model.SliderModel
 import com.example.buytobuy.viewModel.MainViewModel
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel = MainViewModel()
-
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
+    private lateinit var managementCart: ManagementCart
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,16 +35,17 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         FirebaseApp.initializeApp(this)
+
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+        managementCart = ManagementCart(this)
+
         initBanner()
         initBrand()
         initPopular()
         initBottomMenu()
         initListName()
-
-
-    }
-
-    private fun initBottomMenu() {
+    }    private fun initBottomMenu() {
         binding.cartBtn.setOnClickListener {
             startActivity(Intent(this@MainActivity, CartActivity::class.java))
         }
@@ -51,11 +56,9 @@ class MainActivity : BaseActivity() {
             startActivity(Intent(this@MainActivity, HistoryActivity::class.java))
         }
         binding.navExplorer.setOnClickListener {
-            startActivity(Intent(this@MainActivity,MainActivity::class.java))
+            startActivity(Intent(this@MainActivity, MainActivity::class.java))
         }
-
     }
-
 
     private fun initBanner() {
         binding.progressBarBanner.visibility = View.VISIBLE
@@ -105,7 +108,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initListName() {
-        val currentUser = FirebaseAuth.getInstance().currentUser
+        val currentUser = auth.currentUser
         currentUser?.let {
             val email = it.email
             binding.textView4.text = email

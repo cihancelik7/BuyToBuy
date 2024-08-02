@@ -1,31 +1,73 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:layout_margin="8dp"
+    android:padding="8dp"
+    android:background="@drawable/white_bg">
 
     <ImageView
         android:id="@+id/productImage"
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
+        android:src="@drawable/shoes1"
         android:layout_height="100dp"
         android:scaleType="centerCrop"
-        />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="product_image"/>
 
     <TextView
         android:id="@+id/productName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Product Name"
         android:textSize="16sp"
-        android:paddingTop="8dp"
-        />
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/productImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:paddingStart="16dp"
+        android:paddingEnd="8dp"/>
 
     <TextView
         android:id="@+id/purchaseDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Purchase Date"
+        android:textSize="14sp"
+        android:textColor="@color/grey"
+        app:layout_constraintTop_toBottomOf="@id/productName"
+        app:layout_constraintStart_toEndOf="@id/productImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="16dp"
+        android:paddingEnd="8dp"/>
+
+    <TextView
+        android:id="@+id/priceTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="$0.00"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/purchaseDate"
+        app:layout_constraintStart_toEndOf="@id/productImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="16dp"
+        android:paddingEnd="8dp"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date"
-        android:textSize="14sp"
-        android:paddingTop="4dp"
-        />
-</LinearLayout>
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

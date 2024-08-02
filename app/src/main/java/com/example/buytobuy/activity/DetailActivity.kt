@@ -3,12 +3,8 @@ package com.example.buytobuy.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.buytobuy.R
 import com.example.buytobuy.adapter.ColorAdapter
 import com.example.buytobuy.adapter.SizeAdapter
@@ -18,10 +14,8 @@ import com.example.buytobuy.helper.ManagementCart
 import com.example.buytobuy.model.ItemsModel
 import com.example.buytobuy.model.SliderModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class DetailActivity : BaseActivity() {
 
@@ -64,16 +58,36 @@ class DetailActivity : BaseActivity() {
         binding.titleTxt.text = item.title
         binding.descriptionTxt.text = item.description
         binding.priceTxt.text = "$" + item.price
-        // Diğer ürün bilgilerini ayarla
+
         binding.addToCartBtn.setOnClickListener {
-            item.numberInCart = 1
-            managementCart.insertFood(item)
+            addToCart()
         }
         binding.backBtn.setOnClickListener {
             finish()
         }
         binding.cartBtn.setOnClickListener{
             startActivity(Intent(this@DetailActivity, CartActivity::class.java))
+        }
+    }
+
+    private fun addToCart() {
+        val user = auth.currentUser
+        if (user != null) {
+            // Eğer ürün zaten sepette varsa, miktarı artır
+            dbRef.child(user.uid).child("cart").child(item.title)
+                .get().addOnSuccessListener {
+                    val currentItem = it.getValue(ItemsModel::class.java)
+                    if (currentItem != null) {
+                        currentItem.numberInCart += 1
+                        dbRef.child(user.uid).child("cart").child(item.title).setValue(currentItem)
+                    } else {
+                        // Yeni bir ürün sepete ekleniyor
+                        item.numberInCart = 1
+                        dbRef.child(user.uid).child("cart").child(item.title).setValue(item)
+                    }
+                }.addOnFailureListener {
+                    // Hata yönetimi
+                }
         }
     }
 
@@ -102,14 +116,14 @@ class DetailActivity : BaseActivity() {
                     isFavorite = false
                     binding.favBtn.setImageResource(R.drawable.fav_icon)
                 }.addOnFailureListener {
-                    // Hata durumunda kullanıcıya bildirim yap veya eski durumu geri al
+                    // Hata durumu
                 }
             } else {
                 wishlistRef.setValue(item).addOnSuccessListener {
                     isFavorite = true
                     binding.favBtn.setImageResource(R.drawable.favorite)
                 }.addOnFailureListener {
-                    // Hata durumunda kullanıcıya bildirim yap veya eski durumu geri al
+                    // Hata durumu
                 }
             }
         }
@@ -130,6 +144,7 @@ class DetailActivity : BaseActivity() {
             binding.dotIndicator.attachTo(binding.slider)
         }
     }
+
     private fun initBottomMenu() {
         binding.cartBtn.setOnClickListener {
             startActivity(Intent(this@DetailActivity, CartActivity::class.java))

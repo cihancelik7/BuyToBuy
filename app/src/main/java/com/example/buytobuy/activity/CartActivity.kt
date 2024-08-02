@@ -3,47 +3,42 @@ package com.example.buytobuy.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.buytobuy.R
 import com.example.buytobuy.adapter.CartAdapter
 import com.example.buytobuy.databinding.ActivityCartBinding
 import com.example.buytobuy.helper.ChangeNumberItemsListener
 import com.example.buytobuy.helper.ManagementCart
 import com.example.buytobuy.model.ItemsModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 
 class CartActivity : BaseActivity() {
     private lateinit var binding: ActivityCartBinding
     private lateinit var managementCart: ManagementCart
+    private lateinit var auth: FirebaseAuth
+    private lateinit var dbRef: DatabaseReference
     private var tax: Double = 0.0
-    private lateinit var cartItems: ArrayList<ItemsModel>
-    private val itemsToBeMoved = ArrayList<ItemsModel>()
+    private var cartItems = ArrayList<ItemsModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        auth = FirebaseAuth.getInstance()
+        dbRef = FirebaseDatabase.getInstance().getReference("users")
+
         managementCart = ManagementCart(this)
-        cartItems = managementCart.getListCart() // managementCart başlatıldıktan sonra kullanılıyor
-
         setVariable()
-        initCartList()
-        calculateCart()
+        fetchCartData()
         initBottomMenu()
-
 
         binding.checkOutBtn.setOnClickListener {
             val intent = Intent(this@CartActivity, AddressActivity::class.java)
             startActivity(intent)
         }
-
-        // Sepetteki tüm öğeleri itemsToBeMoved listesine ekleyin
-        itemsToBeMoved.addAll(cartItems)
     }
+
     private fun initBottomMenu() {
         binding.cartBtn.setOnClickListener {
             startActivity(Intent(this@CartActivity, CartActivity::class.java))
@@ -56,6 +51,29 @@ class CartActivity : BaseActivity() {
         }
         binding.navExplorer.setOnClickListener {
             startActivity(Intent(this@CartActivity, MainActivity::class.java))
+        }
+    }
+
+    private fun fetchCartData() {
+        val user = auth.currentUser
+        if (user != null) {
+            dbRef.child(user.uid).child("cart").addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    cartItems.clear()
+                    for (data in snapshot.children) {
+                        val item = data.getValue(ItemsModel::class.java)
+                        if (item != null) {
+                            cartItems.add(item)
+                        }
+                    }
+                    initCartList()
+                    calculateCart() // Veriler yüklendikten sonra toplam fiyatı hesapla
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // Hata durumu
+                }
+            })
         }
     }
 
@@ -78,19 +96,28 @@ class CartActivity : BaseActivity() {
     private fun calculateCart() {
         val percentTax = 0.2
         val delivery = 30.0
-        tax = Math.round((managementCart.getTotalFee() * percentTax) * 100) / 100.0
-        val total = Math.round((managementCart.getTotalFee() + tax + delivery) * 100) / 100
-        val itemTotal = Math.round(managementCart.getTotalFee() * 100) / 100
+        val itemTotal = Math.round(cartItems.sumOf { it.price * it.numberInCart } * 100) / 100.0
+        tax = Math.round((itemTotal * percentTax) * 100) / 100.0
+        val total = Math.round((itemTotal + tax + delivery) * 100) / 100.0
 
-        with(binding) {
-            totalFeeTxt.text = "$$itemTotal"
-            taxTxt.text = "$$tax"
-            deliveryTxt.text = "$$delivery"
-            totalTxt.text = "$$total"
+        if (cartItems.isNotEmpty()) {
+            with(binding) {
+                totalFeeTxt.text = "$$itemTotal"
+                taxTxt.text = "$$tax"
+                deliveryTxt.text = "$$delivery"
+                totalTxt.text = "$$total"
+            }
+        }
+        if (cartItems.isEmpty()) {
+            with(binding) {
+                totalFeeTxt.text = "$0"
+                taxTxt.text = "$0"
+                deliveryTxt.text = "$0"
+                totalTxt.text = "$0"
+            }
         }
     }
-
-    private fun setVariable() {
-        binding.backBtn.setOnClickListener { finish() }
+        private fun setVariable() {
+            binding.backBtn.setOnClickListener { finish() }
+        }
     }
-}

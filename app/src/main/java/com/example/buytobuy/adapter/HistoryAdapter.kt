@@ -16,11 +16,24 @@ import java.util.Locale
 class HistoryAdapter(private val historyList: List<ItemsModel>) :
     RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
-    class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val productName: TextView = itemView.findViewById(R.id.productName)
-        val purchaseDate: TextView =
-            itemView.findViewById(R.id.purchaseDate) // Eğer tarih bilgisi varsa
-        val productImage: ImageView = itemView.findViewById(R.id.productImage)
+    inner class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val productName: TextView = itemView.findViewById(R.id.productName)
+        private val purchaseDate: TextView = itemView.findViewById(R.id.purchaseDate)
+        private val productImage: ImageView = itemView.findViewById(R.id.productImage)
+        private val price : TextView = itemView.findViewById(R.id.priceTxt)
+
+        fun bind(item: ItemsModel) {
+            productName.text = item.title
+            price.text = "$${item.price}"
+
+
+            // Display formatted purchase date
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+            purchaseDate.text = dateFormat.format(item.purchaseDate ?: Date())
+
+            // Load product image
+            Glide.with(itemView.context).load(item.picUrl.firstOrNull()).into(productImage)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
@@ -30,13 +43,7 @@ class HistoryAdapter(private val historyList: List<ItemsModel>) :
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         val item = historyList[position]
-        holder.productName.text = item.title
-
-        // Tarihi formatlayarak göster
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-        holder.purchaseDate.text = dateFormat.format(item.purchaseDate ?: Date())
-
-        Glide.with(holder.itemView.context).load(item.picUrl.firstOrNull()).into(holder.productImage)
+        holder.bind(item)
     }
 
     override fun getItemCount(): Int = historyList.size
