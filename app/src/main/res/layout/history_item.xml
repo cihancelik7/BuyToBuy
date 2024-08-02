@@ -8,6 +8,7 @@
     android:background="@drawable/white_bg">
 
     <ImageView
+        android:background="@drawable/grey_bg"
         android:id="@+id/productImage"
         android:layout_width="100dp"
         android:src="@drawable/shoes1"
