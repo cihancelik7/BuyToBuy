@@ -32,6 +32,7 @@ class WishlistActivity : BaseActivity() {
         binding.recyclerView.adapter = wishlistAdapter
         initBottomMenu()
         loadWishlist()
+        initListName()
     }
 
     private fun loadWishlist() {
@@ -83,6 +84,14 @@ class WishlistActivity : BaseActivity() {
                 .addOnFailureListener { e ->
                     // Handle error
                 }
+        }
+    }
+
+    private fun initListName() {
+        val currentUser = auth.currentUser
+        currentUser?.let {
+            val email = it.email
+            binding.userNameTextView.text = email
         }
     }
 }
