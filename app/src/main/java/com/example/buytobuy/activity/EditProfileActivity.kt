@@ -48,7 +48,6 @@ class EditProfileActivity : BaseActivity() {
                 Toast.makeText(this, "Current Password cannot be empty", Toast.LENGTH_SHORT).show()
                 return
             }
-
             val credential = EmailAuthProvider.getCredential(it.email!!, currentPassword)
             it.reauthenticate(credential).addOnCompleteListener { authTask ->
                 if (authTask.isSuccessful) {
