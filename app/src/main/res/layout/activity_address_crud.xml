@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".activity.AddressCrudActivity">
+
+    <TextView
+        android:id="@+id/addressCrudTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manage Address"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="24dp"/>
+
+    <EditText
+        android:id="@+id/streetEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Street"
+        android:inputType="text"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/grey_bg"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/addressCrudTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.8"/>
+
+    <EditText
+        android:id="@+id/cityEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="City"
+        android:inputType="text"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/grey_bg"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/streetEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.8"/>
+
+    <EditText
+        android:id="@+id/postalCodeEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Postal Code"
+        android:inputType="number"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/grey_bg"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/cityEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.8"/>
+
+    <EditText
+        android:id="@+id/countryEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Country"
+        android:inputType="text"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/grey_bg"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/postalCodeEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.8"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/saveAddressButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/purple_button_bg"
+        android:padding="16dp"
+        android:text="Save Address"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/countryEditText"
+        app:layout_constraintWidth_percent="0.8" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

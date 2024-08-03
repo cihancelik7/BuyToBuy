@@ -35,5 +35,8 @@ class AddressActivity : AppCompatActivity() {
         binding.navExplorer.setOnClickListener {
             startActivity(Intent(this@AddressActivity, MainActivity::class.java))
         }
+        binding.navProfile.setOnClickListener {
+            startActivity(Intent(this@AddressActivity, ProfileActivity::class.java))
+        }
     }
 }
