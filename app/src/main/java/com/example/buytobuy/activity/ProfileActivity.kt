@@ -31,6 +31,7 @@ class ProfileActivity : AppCompatActivity() {
         setupUserProfile()
         setupListeners()
         initBottomMenu()
+        fetchAddresses()
 
         binding.editProfileBtn.setOnClickListener {
             startActivity(Intent(this@ProfileActivity, EditProfileActivity::class.java))
@@ -57,6 +58,7 @@ class ProfileActivity : AppCompatActivity() {
             adapter = addressAdapter
         }
     }
+
 
     private fun setupUserProfile() {
         val user = auth.currentUser
@@ -101,6 +103,35 @@ class ProfileActivity : AppCompatActivity() {
                     Toast.makeText(this, "Failed to delete address", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+    private fun fetchAddresses() {
+        val user = auth.currentUser
+        if (user != null) {
+            dbRef.child(user.uid).child("addresses").addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val addressList = mutableListOf<AddressModel>()
+                    for (data in snapshot.children) {
+                        val address = data.getValue(AddressModel::class.java)
+                        if (address != null) {
+                            addressList.add(address)
+                        }
+                    }
+                    // Update the RecyclerView with the address list
+                    if (addressList.isNotEmpty()) {
+                        binding.noAddressesTextView.visibility = View.GONE
+                        binding.addressRecyclerView.visibility = View.VISIBLE
+                        addressAdapter.updateAddressList(addressList)
+                    } else {
+                        binding.noAddressesTextView.visibility = View.VISIBLE
+                        binding.addressRecyclerView.visibility = View.GONE
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // Handle the error scenario, if required
+                }
+            })
         }
     }
 

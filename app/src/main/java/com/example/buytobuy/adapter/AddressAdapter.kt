@@ -24,8 +24,8 @@ class AddressAdapter(
         val deleteAddressButton: ImageButton = itemView.findViewById(R.id.deleteAddressButton)
 
         fun bind(address: AddressModel) {
-            addressTitle.text = address.street
-            addressDetails.text = "${address.city}, ${address.postalCode}, ${address.country}"
+            addressTitle.text = address.title
+            addressDetails.text = "${address.street}, ${address.city}, ${address.postalCode}, ${address.country}"
 
             editAddressButton.setOnClickListener { onEditClicked(address) }
             deleteAddressButton.setOnClickListener { onDeleteClicked(address) }

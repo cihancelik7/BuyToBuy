@@ -2,6 +2,7 @@ package com.example.buytobuy.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buytobuy.adapter.CartAdapter
@@ -74,7 +75,7 @@ class CartActivity : BaseActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    // Hata durumu
+                    // Hata yönetimi
                 }
             })
         }
@@ -120,7 +121,8 @@ class CartActivity : BaseActivity() {
             }
         }
     }
-        private fun setVariable() {
-            binding.backBtn.setOnClickListener { finish() }
-        }
+
+    private fun setVariable() {
+        binding.backBtn.setOnClickListener { finish() }
     }
+}
