@@ -51,6 +51,9 @@ class OtpActivity : BaseActivity() {
         binding.navExplorer.setOnClickListener {
             startActivity(Intent(this@OtpActivity, MainActivity::class.java))
         }
+        binding.navProfile.setOnClickListener {
+            startActivity(Intent(this@OtpActivity, ProfileActivity::class.java))
+        }
     }
 
     private fun verifyOtp(otp: String) {

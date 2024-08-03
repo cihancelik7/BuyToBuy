@@ -98,6 +98,9 @@ class HistoryActivity : BaseActivity() {
         binding.navExplorer.setOnClickListener {
             startActivity(Intent(this@HistoryActivity, MainActivity::class.java))
         }
+        binding.navProfile.setOnClickListener {
+            startActivity(Intent(this@HistoryActivity, ProfileActivity::class.java))
+        }
     }
 
     companion object {

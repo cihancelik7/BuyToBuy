@@ -68,6 +68,9 @@ class PaymentActivity : BaseActivity() {
         binding.navExplorer.setOnClickListener {
             startActivity(Intent(this@PaymentActivity, MainActivity::class.java))
         }
+        binding.navProfile.setOnClickListener {
+            startActivity(Intent(this@PaymentActivity, ProfileActivity::class.java))
+        }
     }
 
     private fun sendOtp(phoneNumber: String) {

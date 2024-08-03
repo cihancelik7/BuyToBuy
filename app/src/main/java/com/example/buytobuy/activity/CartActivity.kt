@@ -52,6 +52,9 @@ class CartActivity : BaseActivity() {
         binding.navExplorer.setOnClickListener {
             startActivity(Intent(this@CartActivity, MainActivity::class.java))
         }
+        binding.navProfile.setOnClickListener {
+            startActivity(Intent(this@CartActivity, ProfileActivity::class.java))
+        }
     }
 
     private fun fetchCartData() {

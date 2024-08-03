@@ -45,7 +45,9 @@ class MainActivity : BaseActivity() {
         initPopular()
         initBottomMenu()
         initListName()
-    }    private fun initBottomMenu() {
+    }
+
+    private fun initBottomMenu() {
         binding.cartBtn.setOnClickListener {
             startActivity(Intent(this@MainActivity, CartActivity::class.java))
         }
@@ -57,6 +59,9 @@ class MainActivity : BaseActivity() {
         }
         binding.navExplorer.setOnClickListener {
             startActivity(Intent(this@MainActivity, MainActivity::class.java))
+        }
+        binding.navProfile.setOnClickListener {
+            startActivity(Intent(this@MainActivity, ProfileActivity::class.java))
         }
     }
 

@@ -71,6 +71,9 @@ class WishlistActivity : BaseActivity() {
         binding.navExplorer.setOnClickListener {
             startActivity(Intent(this@WishlistActivity, MainActivity::class.java))
         }
+        binding.navProfile.setOnClickListener {
+            startActivity(Intent(this@WishlistActivity, ProfileActivity::class.java))
+        }
     }
 
     private fun removeFromWishlist(item: ItemsModel) {
