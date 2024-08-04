@@ -30,7 +30,7 @@ class AddressAdapter(
 
         fun bind(address: AddressModel) {
             addressTitle.text = address.title
-            addressDetails.text = "${address.street}, ${address.city}, ${address.postalCode}, ${address.country}"
+            addressDetails.text = "${address.street}, ${address.city}, ${address.postalCode}, ${address.country},${address.phoneNumber}"
 
             editAddressButton.setOnClickListener {
                 val intent = Intent(context, AddressCrudActivity::class.java)
@@ -40,8 +40,10 @@ class AddressAdapter(
                 intent.putExtra("city", address.city)
                 intent.putExtra("postalCode", address.postalCode)
                 intent.putExtra("country", address.country)
+                intent.putExtra("phoneNumber", address.phoneNumber) // Telefon numarası gönderiliyor
                 context.startActivity(intent)
             }
+
             deleteAddressButton.setOnClickListener {
                 val user = FirebaseAuth.getInstance().currentUser
                 user?.let {

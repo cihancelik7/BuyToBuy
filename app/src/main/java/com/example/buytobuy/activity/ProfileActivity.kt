@@ -12,7 +12,7 @@ import com.example.buytobuy.model.AddressModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
-class ProfileActivity : AppCompatActivity() {
+class ProfileActivity : BaseActivity() {
     private lateinit var binding: ActivityProfileBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var dbRef: DatabaseReference
@@ -136,11 +136,8 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun maskPassword(password: String): String {
-        return if (password.length > 2) {
-            password.substring(0, 2) + "*".repeat(password.length - 2)
-        } else {
-            "*".repeat(password.length)
-        }
+        return "*".repeat(password.length)
+
     }
 
     private fun initBottomMenu() {

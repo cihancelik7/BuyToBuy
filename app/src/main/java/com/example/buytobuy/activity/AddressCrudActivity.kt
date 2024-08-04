@@ -9,7 +9,7 @@
                 import com.google.firebase.database.DatabaseReference
                 import com.google.firebase.database.FirebaseDatabase
 
-                class AddressCrudActivity : AppCompatActivity() {
+                class AddressCrudActivity : BaseActivity() {
                     private lateinit var binding: ActivityAddressCrudBinding
                     private lateinit var auth: FirebaseAuth
                     private lateinit var dbRef: DatabaseReference
@@ -34,12 +34,14 @@
                         val city = intent.getStringExtra("city")
                         val postalCode = intent.getStringExtra("postalCode")
                         val country = intent.getStringExtra("country")
+                        val phoneNumber = intent.getStringExtra("phoneNumber") // Telefon numarası alınır
 
                         binding.titleEditText.setText(title)
                         binding.streetEditText.setText(street)
                         binding.cityEditText.setText(city)
                         binding.postalCodeEditText.setText(postalCode)
                         binding.countryEditText.setText(country)
+                        binding.phoneNumberEditText.setText(phoneNumber) // Telefon numarası yüklenir
                     }
 
                     private fun setupListeners() {
@@ -49,12 +51,13 @@
                             val city = binding.cityEditText.text.toString().trim()
                             val postalCode = binding.postalCodeEditText.text.toString().trim()
                             val country = binding.countryEditText.text.toString().trim()
+                            val phoneNumber = binding.phoneNumberEditText.text.toString().trim() // Telefon numarası alınır
 
-                            if (title.isNotEmpty() && street.isNotEmpty() && city.isNotEmpty() && postalCode.isNotEmpty() && country.isNotEmpty()) {
+                            if (title.isNotEmpty() && street.isNotEmpty() && city.isNotEmpty() && postalCode.isNotEmpty() && country.isNotEmpty() && phoneNumber.isNotEmpty()) {
                                 if (addressId != null) {
-                                    updateAddress(addressId!!, title, street, city, postalCode, country)
+                                    updateAddress(addressId!!, title, street, city, postalCode, country, phoneNumber)
                                 } else {
-                                    saveAddress(title, street, city, postalCode, country)
+                                    saveAddress(title, street, city, postalCode, country, phoneNumber)
                                 }
                             } else {
                                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
@@ -62,7 +65,7 @@
                         }
                     }
 
-                    private fun updateAddress(addressId: String, title: String, street: String, city: String, postalCode: String, country: String) {
+                    private fun updateAddress(addressId: String, title: String, street: String, city: String, postalCode: String, country: String, phoneNumber: String) {
                         val user = auth.currentUser
                         user?.let {
                             val address = AddressModel(
@@ -71,7 +74,8 @@
                                 street = street,
                                 city = city,
                                 postalCode = postalCode,
-                                country = country
+                                country = country,
+                                phoneNumber = phoneNumber // Telefon numarası kaydedilir
                             )
                             dbRef.child(it.uid).child("addresses").child(addressId).setValue(address).addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
@@ -84,7 +88,7 @@
                         }
                     }
 
-                    private fun saveAddress(title: String, street: String, city: String, postalCode: String, country: String) {
+                    private fun saveAddress(title: String, street: String, city: String, postalCode: String, country: String, phoneNumber: String) {
                         val user = auth.currentUser
                         user?.let {
                             val addressId = dbRef.child(it.uid).child("addresses").push().key
@@ -95,7 +99,8 @@
                                     street = street,
                                     city = city,
                                     postalCode = postalCode,
-                                    country = country
+                                    country = country,
+                                    phoneNumber = phoneNumber // Telefon numarası kaydedilir
                                 )
                                 dbRef.child(it.uid).child("addresses").child(addressId).setValue(address).addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
