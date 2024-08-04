@@ -1,4 +1,6 @@
+# BuyToBuy Shopping App
 
+BuyToBuy is a modern shopping application where users can browse and purchase a wide range of products. The app offers seamless shopping experiences with features like wishlists, multiple address management, secure OTP verification, and more. It utilizes Firebase for backend services and is built with modern Android development practices.
 ## Libraries Used
 
 - MVVM + Clean Architecture: For a clean and maintainable project structure.
