@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.telephony.SmsManager
 import android.widget.Toast
 import com.example.buytobuy.databinding.ActivityPaymentBinding
-import com.example.buytobuy.sdk.PaymentSDK
+import com.example.buytobuy.helper.PaymentHelper
+import com.example.buytobuy.model.PaymentModel
 import com.example.buytobuy.sdk.PaymentCallback
 
 class PaymentActivity : BaseActivity() {
@@ -13,6 +14,7 @@ class PaymentActivity : BaseActivity() {
     private lateinit var binding: ActivityPaymentBinding
     private var generatedOtp: String? = null
     private var phoneNumber: String? = null
+    private val paymentHelper = PaymentHelper()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,15 +37,20 @@ class PaymentActivity : BaseActivity() {
 
         generatedOtp = (100000..999999).random().toString()
 
-        PaymentSDK.startPayment(cardNumber, expiryDate, cvv, 100.0, object : PaymentCallback {
+        val paymentModel = PaymentModel(
+            cardNumber = cardNumber,
+            expireDate = expiryDate,
+            cvc = cvv,
+            amount = 100.0
+        )
+
+        paymentHelper.initiatePayment(paymentModel, object : PaymentCallback {
             override fun onSuccess(message: String) {
                 binding.paymentProgressBar.visibility = android.view.View.GONE
                 Toast.makeText(this@PaymentActivity, "Payment Initiated: $message", Toast.LENGTH_SHORT).show()
 
-                // OTP'yi SMS ile gönderme
                 sendOtp(phoneNumber!!)
 
-                // OTP ekranına yönlendirme
                 val intent = Intent(this@PaymentActivity, OtpActivity::class.java)
                 intent.putExtra("generatedOtp", generatedOtp)
                 startActivity(intent)
@@ -55,6 +62,7 @@ class PaymentActivity : BaseActivity() {
             }
         })
     }
+
     private fun initBottomMenu() {
         binding.navCart.setOnClickListener {
             startActivity(Intent(this@PaymentActivity, CartActivity::class.java))

@@ -18,8 +18,6 @@ import com.google.firebase.database.FirebaseDatabase
 class AddressAdapter(
     private val context: Context,
     private var addressList: List<AddressModel>,
-    private val onEditClicked: (AddressModel) -> Unit,
-    private val onDeleteClicked: (AddressModel) -> Unit
 ) : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() {
 
     inner class AddressViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -50,7 +48,6 @@ class AddressAdapter(
                     val dbRef = FirebaseDatabase.getInstance().getReference("users").child(it.uid).child("addresses").child(address.id!!)
                     dbRef.removeValue().addOnSuccessListener {
                         Toast.makeText(context, "Address deleted", Toast.LENGTH_SHORT).show()
-                        // Listeyi güncellemek için bir yöntem çağırabilirsiniz
                     }.addOnFailureListener {
                         Toast.makeText(context, "Failed to delete address", Toast.LENGTH_SHORT).show()
                     }

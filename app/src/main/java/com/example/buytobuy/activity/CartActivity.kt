@@ -71,7 +71,7 @@ class CartActivity : BaseActivity() {
                         }
                     }
                     initCartList()
-                    calculateCart() // Veriler yüklendikten sonra toplam fiyatı hesapla
+                    calculateCart()
                 }
 
                 override fun onCancelled(error: DatabaseError) {

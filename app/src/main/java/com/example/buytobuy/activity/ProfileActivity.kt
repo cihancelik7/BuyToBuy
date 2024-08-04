@@ -40,18 +40,21 @@ class ProfileActivity : BaseActivity() {
         binding.plusAddressBtn.setOnClickListener {
             startActivity(Intent(this, AddressCrudActivity::class.java))
         }
+
+        binding.backBtn.setOnClickListener {
+            auth.signOut()
+            val intent = Intent(this@ProfileActivity, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun setupRecyclerView(addressList: List<AddressModel>) {
         addressAdapter = AddressAdapter(
             this,
             addressList,
-            onEditClicked = { address ->
-                // Handle edit action
-            },
-            onDeleteClicked = { address ->
-                // Handle delete action
-            }
+
         )
         binding.addressRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@ProfileActivity)
@@ -64,7 +67,7 @@ class ProfileActivity : BaseActivity() {
         val user = auth.currentUser
         user?.let {
             binding.emailTextView.text = it.email
-            val password = "YourPassword" // Şifreyi nasıl aldığınıza bağlı olarak değiştirin
+            val password = "YourPassword"
             binding.passwordTextView.text = maskPassword(password)
 
             dbRef.child(it.uid).addListenerForSingleValueEvent(object : ValueEventListener {

@@ -81,7 +81,7 @@ class EditProfileActivity : BaseActivity() {
             }
             binding.editEmailEditText.apply {
                 setText(it.email)
-                isEnabled = false // E-posta alanını düzenlenemez yap
+                isEnabled = false
             }
         }
     }

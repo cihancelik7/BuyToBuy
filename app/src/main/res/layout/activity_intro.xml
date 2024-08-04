@@ -60,9 +60,9 @@
 
                 <TextView
                     android:id="@+id/textView2"
-                    android:layout_marginLeft="100dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="80dp"
                     android:text="Already have an account?"
                     android:textAlignment="center"
                     android:textSize="18sp" />

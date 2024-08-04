@@ -39,21 +39,18 @@ class WishlistAdapter(
             binding.priceTxt.text = "$${item.price}"
             binding.ratingTxt.text = item.rating.toString()
 
-            // Ürün görselini yükleme
             val requestOptions = RequestOptions().transform(CenterCrop())
             Glide.with(binding.root.context)
                 .load(item.picUrl.firstOrNull()) // İlk resmi kullan
                 .apply(requestOptions)
                 .into(binding.pic)
 
-            // Detay ekranına geçiş
             itemView.setOnClickListener {
                 val intent = Intent(binding.root.context, DetailActivity::class.java)
                 intent.putExtra("object", item)
                 binding.root.context.startActivity(intent)
             }
 
-            // Favorilerden çıkarma
             binding.favBtn.setOnClickListener {
                 onRemoveClicked(item)
             }

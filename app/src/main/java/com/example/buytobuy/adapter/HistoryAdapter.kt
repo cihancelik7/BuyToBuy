@@ -27,7 +27,6 @@ class HistoryAdapter(private val historyList: List<ItemsModel>) :
             price.text = "$${item.price}"
 
 
-            // Display formatted purchase date
             val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
             purchaseDate.text = dateFormat.format(item.purchaseDate ?: Date())
 

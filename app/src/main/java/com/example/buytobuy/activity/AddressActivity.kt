@@ -82,7 +82,7 @@ class AddressActivity : BaseActivity() {
         binding.etFullName.setText(address.title)
         binding.etAddress.setText(address.street)
         binding.etCity.setText(address.city)
-        binding.etState.setText(address.city) // Eğer eyalet bilgisi varsa buraya set edilebilir
+        binding.etState.setText(address.city)
         binding.etPostalCode.setText(address.postalCode)
         binding.phoneNumberEditText.setText(address.phoneNumber)
     }

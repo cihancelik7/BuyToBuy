@@ -34,14 +34,14 @@
                         val city = intent.getStringExtra("city")
                         val postalCode = intent.getStringExtra("postalCode")
                         val country = intent.getStringExtra("country")
-                        val phoneNumber = intent.getStringExtra("phoneNumber") // Telefon numarası alınır
+                        val phoneNumber = intent.getStringExtra("phoneNumber")
 
                         binding.titleEditText.setText(title)
                         binding.streetEditText.setText(street)
                         binding.cityEditText.setText(city)
                         binding.postalCodeEditText.setText(postalCode)
                         binding.countryEditText.setText(country)
-                        binding.phoneNumberEditText.setText(phoneNumber) // Telefon numarası yüklenir
+                        binding.phoneNumberEditText.setText(phoneNumber)
                     }
 
                     private fun setupListeners() {
@@ -51,7 +51,7 @@
                             val city = binding.cityEditText.text.toString().trim()
                             val postalCode = binding.postalCodeEditText.text.toString().trim()
                             val country = binding.countryEditText.text.toString().trim()
-                            val phoneNumber = binding.phoneNumberEditText.text.toString().trim() // Telefon numarası alınır
+                            val phoneNumber = binding.phoneNumberEditText.text.toString().trim()
 
                             if (title.isNotEmpty() && street.isNotEmpty() && city.isNotEmpty() && postalCode.isNotEmpty() && country.isNotEmpty() && phoneNumber.isNotEmpty()) {
                                 if (addressId != null) {
@@ -75,7 +75,7 @@
                                 city = city,
                                 postalCode = postalCode,
                                 country = country,
-                                phoneNumber = phoneNumber // Telefon numarası kaydedilir
+                                phoneNumber = phoneNumber
                             )
                             dbRef.child(it.uid).child("addresses").child(addressId).setValue(address).addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
@@ -100,7 +100,7 @@
                                     city = city,
                                     postalCode = postalCode,
                                     country = country,
-                                    phoneNumber = phoneNumber // Telefon numarası kaydedilir
+                                    phoneNumber = phoneNumber
                                 )
                                 dbRef.child(it.uid).child("addresses").child(addressId).setValue(address).addOnCompleteListener { task ->
                                     if (task.isSuccessful) {

@@ -45,13 +45,10 @@ class OtpActivity : BaseActivity() {
 
             val currentTime = System.currentTimeMillis()
 
-            // Sepet verilerini "historyItems" kategorisine taşı ve satın alma saatini güncelle
             moveCartToHistoryItems(currentTime)
 
-            // Cart'tan verileri sil
             clearCartAfterOtpVerification()
 
-            // OTP doğrulama başarılı, history ekranına geçiş yap
             startActivity(Intent(this, HistoryActivity::class.java))
         } else {
             binding.otpProgressBar.visibility = View.GONE
@@ -76,7 +73,6 @@ class OtpActivity : BaseActivity() {
                         }
                     }
 
-                    // "historyItems" kategorisine ekleme işlemi
                     for (item in cartItems) {
                         val newHistoryRef = historyRef.push()
                         newHistoryRef.setValue(item)

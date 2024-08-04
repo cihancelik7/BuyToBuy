@@ -82,7 +82,7 @@ class WishlistActivity : BaseActivity() {
             dbRef.child(user.uid).child("wishlist").child(item.title)
                 .removeValue()
                 .addOnSuccessListener {
-                    loadWishlist() // Reload wishlist to reflect changes
+                    loadWishlist()
                 }
                 .addOnFailureListener { e ->
                     // Handle error
