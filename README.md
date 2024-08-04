@@ -21,7 +21,8 @@
 
 ## Screenshots
 
-<img width="385" alt="1" src="https://github.com/user-attachments/assets/fec7e8d0-9950-4c81-bf8e-0be8451899e3">
+![1](https://github.com/user-attachments/assets/1a5518b8-3ab9-49c8-bfd5-3d8d74010b27)
+![2](https://github.com/user-attachments/assets/fcf9a325-0c7e-4a6a-acd6-5a1653474e56)
 ![2](https://github.com/user-attachments/assets/c9b85bd0-445c-43a7-94b4-2639e84d7551)
 ![3](https://github.com/user-attachments/assets/75cffe4f-6ab7-4cb6-8c2f-ebd8d103fe10)
 ![4](https://github.com/user-attachments/assets/67146fe9-f13a-4d39-b092-079f96e6a831)
