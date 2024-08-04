@@ -1,14 +1,19 @@
 package com.example.buytobuy.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.buytobuy.R
+import com.example.buytobuy.activity.AddressCrudActivity
 import com.example.buytobuy.model.AddressModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class AddressAdapter(
     private val context: Context,
@@ -27,8 +32,28 @@ class AddressAdapter(
             addressTitle.text = address.title
             addressDetails.text = "${address.street}, ${address.city}, ${address.postalCode}, ${address.country}"
 
-            editAddressButton.setOnClickListener { onEditClicked(address) }
-            deleteAddressButton.setOnClickListener { onDeleteClicked(address) }
+            editAddressButton.setOnClickListener {
+                val intent = Intent(context, AddressCrudActivity::class.java)
+                intent.putExtra("addressId", address.id)
+                intent.putExtra("title", address.title)
+                intent.putExtra("street", address.street)
+                intent.putExtra("city", address.city)
+                intent.putExtra("postalCode", address.postalCode)
+                intent.putExtra("country", address.country)
+                context.startActivity(intent)
+            }
+            deleteAddressButton.setOnClickListener {
+                val user = FirebaseAuth.getInstance().currentUser
+                user?.let {
+                    val dbRef = FirebaseDatabase.getInstance().getReference("users").child(it.uid).child("addresses").child(address.id!!)
+                    dbRef.removeValue().addOnSuccessListener {
+                        Toast.makeText(context, "Address deleted", Toast.LENGTH_SHORT).show()
+                        // Listeyi güncellemek için bir yöntem çağırabilirsiniz
+                    }.addOnFailureListener {
+                        Toast.makeText(context, "Failed to delete address", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
     }
 

@@ -103,6 +103,7 @@
         android:id="@+id/addressesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Your Addresses"
@@ -113,24 +114,21 @@
         app:layout_constraintTop_toBottomOf="@id/userInfoLayout" />
 
 
+    <!-- Bottom Navigation Menu -->
+
     <TextView
         android:id="@+id/plusAddressBtn"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_marginStart="6dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginStart="20dp"
         android:background="@drawable/purple_button_bg"
         android:gravity="center"
         android:text="+"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/addressesTitle"
         app:layout_constraintStart_toEndOf="@+id/addressesTitle"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.359"
-        />
-
-
-
-    <!-- Bottom Navigation Menu -->
+        app:layout_constraintTop_toTopOf="@+id/addressesTitle" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
