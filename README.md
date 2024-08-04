@@ -20,7 +20,8 @@
 - Gson: For JSON parsing.
 
 ## Screenshots
-![1](https://github.com/user-attachments/assets/ad87e69d-677a-4fed-936b-c97ee8790de4)
+
+![1](https://github.com/user-attachments/assets/10731e04-a0e2-43e6-85ae-ea440e0890ea)
 ![2](https://github.com/user-attachments/assets/c9b85bd0-445c-43a7-94b4-2639e84d7551)
 ![3](https://github.com/user-attachments/assets/75cffe4f-6ab7-4cb6-8c2f-ebd8d103fe10)
 ![4](https://github.com/user-attachments/assets/67146fe9-f13a-4d39-b092-079f96e6a831)
